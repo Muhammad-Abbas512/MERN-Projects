@@ -7,9 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/github/stars/Muhammad-Abbas512/MERN-Projects?style=for-the-badge&logo=github" alt="GitHub Stars"/>
   <img src="https://img.shields.io/github/forks/Muhammad-Abbas512/MERN-Projects?style=for-the-badge&logo=github" alt="Forks"/>
-  <img src="https://img.shields.io/github/repo-size/Muhammad-Abbas512/MERN-Projects?style=for-the-badge" alt="Repo Size"/>
-  <img src="https://img.shields.io/github/license/Muhammad-Abbas512/MERN-Projects?style=for-the-badge" alt="License"/>
-</p>
+  </p>
 
 ---
 
@@ -95,7 +93,7 @@ It motivates me to continue building and sharing more projects.
 <img src="https://img.shields.io/badge/GitHub-Muhammad--Abbas512-181717?style=for-the-badge&logo=github">
 </a>
 
-<a href="https://www.linkedin.com/">
+<a href="linkedin.com/in/muhammad-abbas-a22ab1325/">
 <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin">
 </a>
 </p>
