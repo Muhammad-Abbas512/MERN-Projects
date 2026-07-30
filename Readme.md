@@ -1,0 +1,107 @@
+# 🚀 MERN Projects Collection
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=2000&color=36BCF7&center=true&vCenter=true&width=700&lines=Welcome+to+My+MERN+Stack+Projects!;Building+Full+Stack+Applications;React+%7C+Node.js+%7C+Express.js+%7C+MongoDB" alt="Typing SVG" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/Muhammad-Abbas512/MERN-Projects?style=for-the-badge&logo=github" alt="GitHub Stars"/>
+  <img src="https://img.shields.io/github/forks/Muhammad-Abbas512/MERN-Projects?style=for-the-badge&logo=github" alt="Forks"/>
+  <img src="https://img.shields.io/github/repo-size/Muhammad-Abbas512/MERN-Projects?style=for-the-badge" alt="Repo Size"/>
+  <img src="https://img.shields.io/github/license/Muhammad-Abbas512/MERN-Projects?style=for-the-badge" alt="License"/>
+</p>
+
+---
+
+## 📖 About
+
+Welcome to my **MERN Projects Repository**.
+
+This repository contains my FULL Stack Development projects built while learning and practicing the **MERN Stack**.
+
+Each project focuses on improving different concepts including:
+
+- ⚛️ React.js
+- 🟢 Node.js
+- 🚀 Express.js
+- 🍃 MongoDB
+- 🔐 Authentication
+- 🌐 REST APIs
+- 📦 CRUD Operations
+- ☁️ Cloud Storage
+- 🎨 Responsive UI
+
+More projects will be added regularly as I continue learning.
+
+---
+
+# 📂 Projects
+
+| No. | Project | Status | Technologies |
+|------|----------|--------|--------------|
+| **00** | 📝 Notes App | ✅ Completed | React, Node.js, Express, MongoDB |
+| **01** | ☁️ Cloud Service Gallery | ✅ Completed | React, Node.js, Express, MongoDB, imagekit.io |
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+- React.js
+- JavaScript (ES6+)
+- HTML5
+- CSS3
+- Tailwind CSS
+
+### Backend
+
+- Node.js
+- Express.js
+
+### Database
+
+- MongoDB
+- Mongoose
+
+### Tools
+
+- Git
+- GitHub
+- VS Code
+- Postman
+
+## ⭐ Support
+
+If you find these projects helpful, please consider giving this repository a **⭐ Star**.
+
+It motivates me to continue building and sharing more projects.
+
+---
+
+## 📈 Repository Progress
+
+```text
+00 - Notes App
+01 - Cloud Service Gallery
+```
+
+---
+
+## 🤝 Connect With Me
+
+<p align="center">
+<a href="https://github.com/Muhammad-Abbas512">
+<img src="https://img.shields.io/badge/GitHub-Muhammad--Abbas512-181717?style=for-the-badge&logo=github">
+</a>
+
+<a href="https://www.linkedin.com/">
+<img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin">
+</a>
+</p>
+
+---
+
+<p align="center">
+Made with ❤️ by <strong>Muhammad Abbas</strong>
+</p>
