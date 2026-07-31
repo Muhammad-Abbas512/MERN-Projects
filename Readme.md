@@ -39,7 +39,7 @@ More projects will be added regularly as I continue learning.
 |------|----------|--------|--------------|
 | **00** | 📝 Notes App | ✅ Completed | React, Node.js, Express, MongoDB |
 | **01** | ☁️ Cloud Service Gallery | ✅ Completed | React, Node.js, Express, MongoDB, imagekit.io |
-| **03** | 🔒 Login/SignUp | ✅ working | React, Node.js, Express, MongoDB, JWT, bcrypt, Authentication |
+| **03** | 🔒 Login/SignUp |  working | React, Node.js, Express, MongoDB, JWT, bcrypt, Authentication |
 ---
 
 
