@@ -37,9 +37,9 @@ More projects will be added regularly as I continue learning.
 
 | No. | Project | Status | Technologies |
 |------|----------|--------|--------------|
-| **00** | 📝 Notes App | ✅ Completed | React, Node.js, Express, MongoDB |
-| **01** | ☁️ Cloud Service Gallery | ✅ Completed | React, Node.js, Express, MongoDB, imagekit.io |
-| **03** | 🔒 Login/SignUp |  working | React, Node.js, Express, MongoDB, JWT, bcrypt, Authentication |
+| **01** | 📝 Notes App | ✅ Completed | React, Node.js, Express, MongoDB |
+| **02** | ☁️ Cloud Service Gallery | ✅ Completed | React, Node.js, Express, MongoDB, imagekit.io |
+| **03** | 🔒 Login/SignUp |  working | React, Node.js, Express, MongoDB, JWT, crypto, Authentication |
 ---
 
 
@@ -82,9 +82,9 @@ It motivates me to continue building and sharing more projects.
 ## 📈 Repository Progress
 
 ```text
-00 - Notes App
-01 - Cloud Service Gallery
-02 - Login/SignUp
+01 - Notes App
+02 - Cloud Service Gallery
+03 - Login/SignUp
 ```
 
 ---
