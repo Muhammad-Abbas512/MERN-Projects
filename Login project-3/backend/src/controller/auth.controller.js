@@ -220,10 +220,10 @@ export async function logout(req, res){
     }
 
 
-    const refreshTokenhash = crypto.createHash("sha256").update(refereshToken).digest("hex");
+    const refreshTokenHash = crypto.createHash("sha256").update(refereshToken).digest("hex");
 
     const session = await sessionModel.findOne({
-        refreshTokenhash,
+        refreshTokenHash,
         revoke: false
     })
 
@@ -287,7 +287,7 @@ export async function verifyEmail(req, res){
         })
     }
 
-    const user = await userModel.findByIdAndUpdate(otpDoc.user, { emailVerified: true });
+    const user = await userModel.findByIdAndUpdate(otpDoc.user, { verified: true }, { new: true });
 
 
     await otpModel.deleteMany({ 
