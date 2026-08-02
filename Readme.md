@@ -39,7 +39,8 @@ More projects will be added regularly as I continue learning.
 |------|----------|--------|--------------|
 | **01** | 📝 Notes App | ✅ Completed | React, Node.js, Express, MongoDB |
 | **02** | ☁️ Cloud Service Gallery | ✅ Completed | React, Node.js, Express, MongoDB, imagekit.io |
-| **03** | 🔒 Login/SignUp |  working | React, Node.js, Express, MongoDB, JWT, crypto, Authentication |
+| **03** | 🔒 Login/SignUp | ✅ Completed | React, Node.js, Express, MongoDB, JWT, crypto, Authentication |
+| **04** | 📝 Real time Chat Application | working | React, Node.js, Express, MongoDB, JWT, crypto, Authentication, socket.io, cloudinary |
 ---
 
 
@@ -85,6 +86,7 @@ It motivates me to continue building and sharing more projects.
 01 - Notes App
 02 - Cloud Service Gallery
 03 - Login/SignUp
+04 - Real Time Chat Application like Whatsapp
 ```
 
 ---
