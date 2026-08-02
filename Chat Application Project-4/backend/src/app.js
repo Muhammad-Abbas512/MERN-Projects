@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import authRouter from './routes/auth.routes.js';
+import messageRoutes from './routes/message.routes.js';
 
 
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 
 app.use("/api/auth", authRouter);
+app.use("/api/messages", messageRoutes)
 
 
 export default app;
