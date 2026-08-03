@@ -4,7 +4,7 @@ import userModel from "../models/user.model.js";
 export const getAllContacts = async (req, res) => {
 
     try{
-        const loggedInUserId = req.user._id;
+        const loggedInUserId = req.user.id;
         const filteredUsers = await userModel.find({_id: {$ne: loggedInUserId}}).select("-password");
 
         res.status(200).json({
@@ -141,8 +141,8 @@ export const getChatPartner = async (req, res) => {
     ];
 
     const chatPartners = await userModel.find({
-        _id: { $in: chatPartnerIds }.select("-password")
-    })
+        _id: { $in: chatPartnerIds }
+    }).select("-password")
        res.status(200).json({
         chatPartners
        })

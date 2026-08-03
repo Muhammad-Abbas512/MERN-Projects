@@ -1,45 +1,43 @@
-import {Router} from 'express';
-import * as authController from '../controller/auth.controller.js';
-import {protectedRoute} from '../middlewares/auth.middleware.js';
-import {arcjectProtection} from '../middlewares/arcjet.middeware.js';
+import { Router } from "express";
+import * as authController from "../controller/auth.controller.js";
+import { protectedRoute } from "../middlewares/auth.middleware.js";
+import { arcjectProtection } from "../middlewares/arcjet.middeware.js";
 
 const authRouter = Router();
 
+// Apply Arcjet to all auth routes
 authRouter.use(arcjectProtection);
 
-// POST /api/auth/register 
+// Register
 authRouter.post("/register", authController.register);
 
-// post /api/auth/login
-authRouter.post("/login", arcjectProtection, authController.login);
+// Login
+authRouter.post("/login", authController.login);
 
-
-// GET /api/auth/get-me
-authRouter.get("/get-me", arcjectProtection, authController.getMe);
-
-
-
-// /api/auth/refresh-token
-authRouter.get("/refresh-token", arcjectProtection, authController.refreshToken);
-
-// /api/auth/logout
-authRouter.get("/logout", arcjectProtection, authController.logout);
-
-// /api/auth/logout-all
-authRouter.get("/logout-all", authController.logoutAll);
-
-
-// POST /api/auth/verify-email
+// Verify Email
 authRouter.post("/verify-email", authController.verifyEmail);
 
+// Logout
+authRouter.post("/logout", protectedRoute, authController.logout);
 
-authRouter.post("/update-profile", protectedRoute, authController.updateProfile);
+// Logout from all devices
+authRouter.post("/logout-all", protectedRoute, authController.logoutAll);
 
-authRouter.get("/check", protectedRoute, (req, res) =>{
-    res.status(200).json({
-        user: req.user
-    })
+// Refresh Access Token
+authRouter.get("/refresh-token", authController.refreshToken);
+
+// Current Logged-in User
+authRouter.get("/get-me", protectedRoute, authController.getMe);
+
+// Update Profile
+authRouter.put("/update-profile", protectedRoute, authController.updateProfile);
+
+// Check Authentication
+authRouter.get("/check", protectedRoute, (req, res) => {
+  res.status(200).json({
+    success: true,
+    user: req.user,
+  });
 });
-
 
 export default authRouter;
