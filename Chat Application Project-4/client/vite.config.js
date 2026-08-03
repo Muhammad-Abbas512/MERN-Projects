@@ -15,6 +15,14 @@ export default defineConfig({
         target: "http://localhost:3000",
         changeOrigin: true,
       },
+      // Proxy Socket.IO connections through Vite
+      // This allows forwarded ports / network devices to
+      // connect to the backend without hardcoding the IP
+      "/socket.io": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        ws: true,
+      },
     },
   },
 })

@@ -1,6 +1,21 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import { io } from "socket.io-client";
 import toast from "react-hot-toast";
+
+// Dynamic socket URL — uses the same host/port the app is accessed from.
+// This works for localhost, forwarded ports, and other devices on the network.
+// Falls back to localhost:3000 if window is unavailable (e.g. during build).
+const getSocketURL = () => {
+  if (typeof window !== "undefined") {
+    const { protocol, hostname, port } = window.location;
+    // Vite dev server proxies /socket.io to backend at port 3000
+    return `${protocol}//${hostname}:${port}`;
+  }
+  return "http://localhost:3000";
+};
+
+const SOCKET_URL = getSocketURL();
 
 export const useAuthStore = create((set, get) => ({
   // ============================
@@ -8,12 +23,53 @@ export const useAuthStore = create((set, get) => ({
   // ============================
 
   authUser: null,
+  socket: null,
+  onlineUsers: [],
 
   isCheckingAuth: false,
   isSigningUp: false,
   isLoggingIn: false,
   isVerifyingEmail: false,
   isUpdatingProfile: false,
+
+  // ============================
+  // Socket Connection
+  // ============================
+
+  connectSocket: () => {
+    const { authUser, socket } = get();
+    if (!authUser || socket?.connected) return;
+
+    const token = localStorage.getItem("accessToken");
+    if (!token) return;
+
+    const newSocket = io(SOCKET_URL, {
+      auth: { token },
+      transports: ["websocket"],
+    });
+
+    newSocket.connect();
+    set({ socket: newSocket });
+
+    newSocket.on("connect", () => {
+      console.log("Socket connected:", newSocket.id);
+    });
+
+    newSocket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error.message);
+    });
+
+    newSocket.on("getOnlineUsers", (userIds) => {
+      set({ onlineUsers: userIds });
+    });
+  },
+
+  disconnectSocket: () => {
+    if (get().socket?.connected) {
+      get().socket.disconnect();
+    }
+    set({ socket: null, onlineUsers: [] });
+  },
 
   // ============================
   // Check Authentication
@@ -28,6 +84,10 @@ export const useAuthStore = create((set, get) => ({
       set({
         authUser: res.data.user,
       });
+      
+      // Connect socket after auth check
+      const { connectSocket } = get();
+      connectSocket();
     } catch (error) {
       set({
         authUser: null,
@@ -132,6 +192,10 @@ export const useAuthStore = create((set, get) => ({
 
       toast.success(res.data.message);
 
+      // Connect socket after login
+      const { connectSocket } = get();
+      connectSocket();
+
       return true;
     } catch (error) {
       toast.error(
@@ -154,19 +218,22 @@ export const useAuthStore = create((set, get) => ({
   logout: async () => {
     try {
       await axiosInstance.post("/auth/logout");
-
-      localStorage.removeItem("accessToken");
-
-      set({
-        authUser: null,
-      });
-
       toast.success("Logged out successfully");
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
           "Logout failed"
       );
+    } finally {
+      localStorage.removeItem("accessToken");
+      
+      // Disconnect socket
+      const { disconnectSocket } = get();
+      disconnectSocket();
+
+      set({
+        authUser: null,
+      });
     }
   },
 
@@ -213,7 +280,7 @@ export const useAuthStore = create((set, get) => ({
   // Update Profile
   // ============================
 
-  updateProfile: async (profilePic) => {
+  updateProfile: async (data) => {
     set({
       isUpdatingProfile: true,
     });
@@ -221,9 +288,7 @@ export const useAuthStore = create((set, get) => ({
     try {
       const res = await axiosInstance.put(
         "/auth/update-profile",
-        {
-          profilePic,
-        }
+        data
       );
 
       set({

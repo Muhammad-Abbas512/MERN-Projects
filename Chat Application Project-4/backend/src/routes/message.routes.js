@@ -11,7 +11,7 @@ router.use(arcjectProtection, protectedRoute);
 
 router.get("/contacts",getAllContacts);
 router.get("/chats",getChatPartner);
-router.get("/:idx", getMessagesById);
+router.get("/:userId", getMessagesById);
 
 router.post("/send/:id",sendMessage);
 

@@ -11,7 +11,7 @@ import cloudinary from "../utils/cloudinary.js";
 
 export async function register(req, res){
 
-    const { username, email, password } = req.body;
+    const { username, fullName, email, password } = req.body;
 
 
     const isUserExist = await userModel.findOne({ 
@@ -31,6 +31,7 @@ export async function register(req, res){
 
     const user = await userModel.create({
         username,
+        fullName: fullName || username,
         email,
         password: hashPassword
     });
@@ -121,8 +122,12 @@ export async function login(req,res){
     res.status(200).json({
         message: "User logged in successfully",
         user: {
+            _id: user._id,
             username: user.username,
-            email: user.email
+            fullName: user.fullName,
+            email: user.email,
+            profilePic: user.profilePic,
+            verified: user.verified
         },
         accessToken,
     });
@@ -146,8 +151,12 @@ export async function getMe(req, res){
     res.status(200).json({
         message: "User fetched successfully",
         user: {
+            _id: user._id,
             username: user.username,
-            email: user.email
+            fullName: user.fullName,
+            email: user.email,
+            profilePic: user.profilePic,
+            verified: user.verified
         }
     })
 
@@ -310,30 +319,62 @@ export async function verifyEmail(req, res){
 export async function updateProfile(req, res){
     try{
 
-        const {profilePic} = req.body;
-        if(!profilePic){
+        const {profilePic, username} = req.body;
+
+        if(!profilePic && !username){
             return res.status(400).json({
-                message: "Profile picture is required"
+                message: "Profile picture or username is required"
             })
         }
 
         const userId = req.user._id;
-      const uploadResponse =  await cloudinary.uploader.upload(profilePic);
 
-     const updatedUser = await userModel.findByIdAndUpdate(userId, {profilePic: uploadResponse.secure_url}, {new: true});
+        const updateData = {};
 
-     res.status(200).json({
-        updatedUser
-     })
+        if(profilePic){
+            // Handle data URL format: "data:image/png;base64,<base64>"
+            // Preserve the actual MIME type (png, jpeg, gif, etc.)
+            let uploadData = profilePic;
 
+            if (profilePic.includes("base64,")) {
+                const [meta, base64Data] = profilePic.split("base64,");
+                const mimeType = meta.match(/data:(.*?);/)?.[1] || "image/png";
+                uploadData = `data:${mimeType};base64,${base64Data}`;
+            }
 
+            const uploadResponse = await cloudinary.uploader.upload(
+                uploadData,
+                { resource_type: "image" }
+            );
+            updateData.profilePic = uploadResponse.secure_url;
+        }
 
+        if(username){
+            // Check if username is already taken by another user
+            const existingUser = await userModel.findOne({
+                username,
+                _id: { $ne: userId }
+            });
 
+            if(existingUser){
+                return res.status(409).json({
+                    message: "Username already taken"
+                });
+            }
 
-        
+            updateData.username = username;
+        }
+
+        const updatedUser = await userModel.findByIdAndUpdate(userId, updateData, {new: true}).select("-password");
+
+        res.status(200).json({
+            updatedUser
+        })
+
     } catch (error) {
+        console.error("Error in updateProfile:", error);
         res.status(500).json({
-            message: "Error updating profile"
+            message: error.message || "Error updating profile"
         })
     }
 }

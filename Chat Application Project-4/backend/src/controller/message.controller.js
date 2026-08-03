@@ -1,5 +1,7 @@
 import messageModel from "../models/message.model.js";
 import userModel from "../models/user.model.js";
+import cloudinary from "../utils/cloudinary.js";
+import { io, getReceiverSocketId } from "../lib/socket.js";
 
 export const getAllContacts = async (req, res) => {
 
@@ -23,22 +25,22 @@ export const getAllContacts = async (req, res) => {
 export const getMessagesById = async (req, res) =>{
     try{
         const myId = req.user._id;
-        const {id:userToChatId} = req.params;
+        const {userId:userToChatId} = req.params;
 
         //me and you
         // i send you messages
         //you send me messages. 
         //in this case all the messages. 
 
-        const message = await messageModel.findOne({
+        const messages = await messageModel.find({
             $or: [
                 { senderId: myId, receiverId: userToChatId },
                 { senderId: userToChatId, receiverId: myId }
             ]
-        });
+        }).sort({ createdAt: 1 }).populate('senderId', 'username fullName profilePic').populate('receiverId', 'username fullName profilePic');
 
         res.status(200).json({
-            message
+            messages
         })
 
 
@@ -53,23 +55,18 @@ export const getMessagesById = async (req, res) =>{
 
 
 export const sendMessage = async (req, res) => {
-
-
-    try{
-
-        const {text, image} = req.body;
-        const {id:receiverId} = req.params;
+    try {
+        const { text, image } = req.body;
+        const { id: receiverId } = req.params;
         const senderId = req.user._id;
 
-
-        if(!text && !image){
+        if (!text && !image) {
             return res.status(400).json({
                 message: "Message text or image is required"
             });
         }
 
-
-        if(senderId.equals(receiverId)){
+        if (senderId.equals(receiverId)) {
             return res.status(400).json({
                 message: "You cannot send message to yourself"
             });
@@ -79,17 +76,16 @@ export const sendMessage = async (req, res) => {
             _id: receiverId
         });
 
-        if(!receiverIdExists){
+        if (!receiverIdExists) {
             return res.status(404).json({
                 message: "Receiver not found"
             });
         }
 
         let imageUrl;
-        if(image){
-            //upload base64 image to cloudinary
+        if (image) {
+            // upload base64 image to cloudinary
             const uploadResponse = await cloudinary.uploader.upload(image);
-
             imageUrl = uploadResponse.secure_url;
         }
 
@@ -101,20 +97,32 @@ export const sendMessage = async (req, res) => {
         });
 
         await newMessage.save();
+        
+        // Populate sender info before sending
+        const populatedMessage = await newMessage.populate("senderId", "fullName username profilePic");
+
+        // Emit to receiver via socket if online
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", populatedMessage);
+        }
+
+        // Also emit to sender's other devices (if logged in elsewhere)
+        const senderSocketId = getReceiverSocketId(senderId);
+        if (senderSocketId) {
+            io.to(senderSocketId).emit("newMessage", populatedMessage);
+        }
 
         res.status(201).json({
-            newMessage
+            newMessage: populatedMessage
         });
-
-        //todo: send message in real time using socket.io
-    }catch(error){
+    } catch (error) {
         console.error("Error in sendMessage:", error);
         res.status(500).json({
             message: "Internal server error"
         });
     }
-
-}
+};
 
 export const getChatPartner = async (req, res) => {
 

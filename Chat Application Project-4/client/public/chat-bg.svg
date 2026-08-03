@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360">
+  <defs>
+    <pattern id="whatsapp-pattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="2" fill="#000000" opacity="0.05"/>
+      <circle cx="80" cy="40" r="1.5" fill="#000000" opacity="0.04"/>
+      <circle cx="40" cy="90" r="2.5" fill="#000000" opacity="0.05"/>
+      <circle cx="100" cy="100" r="1.5" fill="#000000" opacity="0.04"/>
+      <circle cx="60" cy="60" r="1" fill="#000000" opacity="0.03"/>
+      <path d="M10 70 Q 30 50, 50 70 T 90 70" fill="none" stroke="#000000" stroke-width="0.5" opacity="0.03"/>
+      <path d="M70 10 Q 90 30, 70 50 T 70 90" fill="none" stroke="#000000" stroke-width="0.5" opacity="0.03"/>
+      <rect x="0" y="0" width="120" height="120" fill="none"/>
+    </pattern>
+  </defs>
+  <rect width="360" height="360" fill="url(#whatsapp-pattern)"/>
+</svg>

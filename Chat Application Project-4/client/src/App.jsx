@@ -3,10 +3,12 @@ import { Routes, Route } from 'react-router-dom'
 import Login from './pages/login'
 import SignUp from './pages/SignUp'
 import VerifyEmail from './pages/VerifyEmail'
-import Home from './pages/Home'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useAuthStore } from './Store/useAuthStore'
-
+import MessageHome from './pages/MessageHome' 
+import Profile from './pages/Profile'
+import ChatPage from './pages/Chats'
+ 
 function App() {
   const { checkAuth } = useAuthStore()
 
@@ -15,14 +17,34 @@ function App() {
   }, [checkAuth])
 
   return (
-    <div className="bg-gray-800 h-screen flex items-center justify-center">
+    <div className="bg-gray-950 h-screen flex items-center justify-center">
       <Routes>
         {/* Home is protected - only accessible when logged in */}
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <Home />
+              <MessageHome />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Profile - protected */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Chat page - protected */}
+        <Route
+          path="/chats/:userId"
+          element={
+            <ProtectedRoute>
+              <ChatPage />
             </ProtectedRoute>
           }
         />
