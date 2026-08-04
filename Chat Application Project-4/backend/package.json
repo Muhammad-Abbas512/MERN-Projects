@@ -9,7 +9,7 @@
   "dependencies": {
     "@arcjet/inspect": "^1.9.1",
     "@arcjet/node": "^1.9.1",
-    "cloudinary": "^2.10.0",
+    "@imagekit/nodejs": "^7.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

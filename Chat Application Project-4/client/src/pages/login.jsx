@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff } from "lucide-react";
 import { useAuthStore } from "../Store/useAuthStore";
@@ -20,17 +19,10 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const [checked, setchecked] = useState({
-    checked: false,
-  });
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-
-
 
   // 2. Handle input changes dynamically
   const handleChange = (event) => {
@@ -53,14 +45,11 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-gray-800 h-screen w-full flex justify-center items-center">
-
-      <div className="bg-white h-[90%] w-[80%] rounded-xl shadow-2xl flex overflow-hidden">
-
+    <div className="bg-gray-800 h-screen w-full flex justify-center items-center p-4">
+      <div className="bg-white h-[90%] w-full max-w-4xl rounded-xl shadow-2xl flex overflow-hidden">
         {/* Left - Form Section */}
-        <div className="flex-1 flex flex-col justify-center px-17 py-10">
-
-          <h1 className="text-3xl font-bold text-blue-950 mb-2">Welcome Back!</h1>
+        <div className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-8 overflow-y-auto">
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-950 mb-2">Welcome Back!</h1>
           <h2 className="text-sm font-semibold italic text-gray-500 mb-8">Please Login to continue</h2>
 
           <form onSubmit={handleSubmit} className="space-y-3">
@@ -94,7 +83,6 @@ const Login = () => {
                 >
                   Password
                 </label>
-
               </div>
 
               <div className="relative mb-6">
@@ -171,7 +159,6 @@ const Login = () => {
               <Link
                 to="/signup"
                 className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
-                
               >
                 Sign Up
               </Link>
@@ -179,13 +166,11 @@ const Login = () => {
           </form>
         </div>
 
-        {/* Right - Image Section */}
-        <div className="w-[54%]">
+        {/* Right - Image Section (hidden on mobile) */}
+        <div className="hidden md:block w-[54%]">
           <img src={image} alt="Login" className="h-full w-full object-cover" />
         </div>
-
       </div>
-
     </div>
   )
 }

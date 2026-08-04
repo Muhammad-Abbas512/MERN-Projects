@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { io } from "socket.io-client";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
+import { forceCleanup } from "../lib/callManager.js";
+import { stopRingtone } from "../lib/sound.js";
 
 // Dynamic socket URL — uses the same host/port the app is accessed from.
 // This works for localhost, forwarded ports, and other devices on the network.
@@ -68,6 +70,9 @@ export const useAuthStore = create((set, get) => ({
     if (get().socket?.connected) {
       get().socket.disconnect();
     }
+    // Clean up any active call resources
+    stopRingtone();
+    forceCleanup();
     set({ socket: null, onlineUsers: [] });
   },
 
@@ -84,7 +89,7 @@ export const useAuthStore = create((set, get) => ({
       set({
         authUser: res.data.user,
       });
-      
+
       // Connect socket after auth check
       const { connectSocket } = get();
       connectSocket();
@@ -120,7 +125,7 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Signup failed"
+        "Signup failed"
       );
 
       return false;
@@ -155,7 +160,7 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Verification failed"
+        "Verification failed"
       );
 
       return false;
@@ -200,7 +205,7 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Login failed"
+        "Login failed"
       );
 
       return false;
@@ -222,11 +227,11 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Logout failed"
+        "Logout failed"
       );
     } finally {
       localStorage.removeItem("accessToken");
-      
+
       // Disconnect socket
       const { disconnectSocket } = get();
       disconnectSocket();
@@ -305,7 +310,7 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Profile update failed"
+        "Profile update failed"
       );
 
       return false;

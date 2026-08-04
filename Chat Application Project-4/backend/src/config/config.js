@@ -29,19 +29,17 @@ if(!process.env.GOOGLE_USER) {
     throw new Error('GOOGLE_USER is not defined in the environment variables');
 }
 
-if(!process.env.CLOUDINARY_CLOUD_NAME) {
-    throw new Error('CLOUDINARY_CLOUD_NAME is not defined in the environment variables');
+if(!process.env.IMAGEKIT_PUBLIC_API_KEY) {
+    throw new Error('IMAGEKIT_PUBLIC_API_KEY is not defined in the environment variables');
 }
 
-if(!process.env.CLOUDINARY_API_KEY) {
-    throw new Error('CLOUDINARY_API_KEY is not defined in the environment variables');
-}
-if(!process.env.CLOUDINARY_API_SECRET) {
-    throw new Error('CLOUDINARY_API_SECRET is not defined in the environment variables');
+if(!process.env.IMAGEKIT_PRIVATE_API_KEY) {
+    throw new Error('IMAGEKIT_PRIVATE_API_KEY is not defined in the environment variables');
 }
 
-
-
+if(!process.env.IMAGEKIT_URL_ENDPOINT) {
+    throw new Error('IMAGEKIT_URL_ENDPOINT is not defined in the environment variables');
+}
 
 const config = {
     mongoURI: process.env.MONGO_URI,
@@ -50,9 +48,9 @@ const config = {
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     GOOGLE_REFRESH_TOKEN: process.env.GOOGLE_REFRESH_TOKEN,
-    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
-    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    IMAGEKIT_PUBLIC_API_KEY: process.env.IMAGEKIT_PUBLIC_API_KEY,
+    IMAGEKIT_PRIVATE_API_KEY: process.env.IMAGEKIT_PRIVATE_API_KEY,
+    IMAGEKIT_URL_ENDPOINT: process.env.IMAGEKIT_URL_ENDPOINT,
     ARCJET_API_KEY: process.env.ARCJET_API_KEY,
     ARCJET_ENV: process.env.ARCJET_ENV || 'development',
     

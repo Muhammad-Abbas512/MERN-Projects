@@ -6,7 +6,7 @@ import sessionModel from "../models/session.model.js";
 import { sendEmail } from "../services/email.service.js";
 import { generateOTP, getOtpHtml } from "../utils/utils.js";
 import otpModel from "../models/otp.model.js";
-import cloudinary from "../utils/cloudinary.js";
+import imagekit from "../utils/imagekit.js";
 
 
 export async function register(req, res){
@@ -136,8 +136,31 @@ export async function login(req,res){
 export async function getMe(req, res){
 
     const token = req.headers.authorization?.split(" ")[1];
+    const { userId } = req.query;
 
+    // If userId is provided, fetch that user's public profile
+    if (userId) {
+        const user = await userModel.findById(userId).select("-password");
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
 
+        return res.status(200).json({
+            message: "User fetched successfully",
+            user: {
+                _id: user._id,
+                username: user.username,
+                fullName: user.fullName,
+                email: user.email,
+                profilePic: user.profilePic,
+                verified: user.verified
+            }
+        });
+    }
+
+    // Otherwise, fetch the logged-in user's profile
     if(!token){
         return res.status(401).json({
             message: "token not found"
@@ -342,11 +365,11 @@ export async function updateProfile(req, res){
                 uploadData = `data:${mimeType};base64,${base64Data}`;
             }
 
-            const uploadResponse = await cloudinary.uploader.upload(
-                uploadData,
-                { resource_type: "image" }
-            );
-            updateData.profilePic = uploadResponse.secure_url;
+            const uploadResponse = await imagekit.files.upload({
+                file: uploadData,
+                fileName: `profile-${Date.now()}.jpg`
+            });
+            updateData.profilePic = uploadResponse.url;
         }
 
         if(username){

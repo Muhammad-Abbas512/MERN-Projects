@@ -6,6 +6,7 @@ const ChatInput = () => {
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [isSending, setIsSending] = useState(false);
   const { sendMessage } = useChatStore();
   const fileInputRef = useRef(null);
 
@@ -35,17 +36,19 @@ const ChatInput = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message.trim() && !image) return;
 
-    sendMessage({ text: message, image });
+    setIsSending(true);
+    await sendMessage({ text: message, image });
+    setIsSending(false);
     setMessage("");
     removeImage();
   };
 
   return (
-    <div className="px-4 py-3 rounded-2xl bg-[#f0f2f5]">
+    <div className="px-3 sm:px-4 py-3 bg-[#f0f2f5]">
       {/* Image preview */}
       {imagePreview && (
         <div className="relative mb-3 inline-block">
@@ -64,7 +67,7 @@ const ChatInput = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+      <form onSubmit={handleSubmit} className="flex items-center gap-1.5 sm:gap-2">
         <input
           type="file"
           accept="image/*"
@@ -75,18 +78,19 @@ const ChatInput = () => {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="p-2 hover:bg-gray-200 cursor-pointer rounded-full transition-colors"
+          className="p-2 hover:bg-gray-200 cursor-pointer rounded-full transition-colors shrink-0"
           aria-label="Add image"
         >
-          <Image className="w-6 h-6 text-gray-600" />
+          <Image className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
         </button>
 
+        {/* Emoji button - placeholder for future emoji functionality */}
         <button
           type="button"
-          className="p-2 cursor-pointer hover:bg-gray-200 rounded-full transition-colors"
-          aria-label="Add emoji"
+          className="p-2 cursor-pointer hover:bg-gray-200 rounded-full transition-colors shrink-0"
+          aria-label="Emoji"
         >
-          <Smile className="w-6 h-6 text-gray-600" />
+          <Smile className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
         </button>
 
         <input
@@ -94,16 +98,20 @@ const ChatInput = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message"
-          className="flex-1 px-4 py-2.5 bg-white rounded-lg outline-none focus:ring-2 focus:ring-[#00a884] text-[15px] text-gray-900"
+          className="flex-1 min-w-0 px-3 sm:px-4 py-2.5 bg-white rounded-lg outline-none focus:ring-2 focus:ring-[#00a884] text-[15px] text-gray-900"
         />
 
         <button
           type="submit"
-          disabled={!message.trim() && !image}
-          className="p-2.5 bg-[#00a884] cursor-pointer text-white rounded-full hover:bg-[#008f72] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={(!message.trim() && !image) || isSending}
+          className="p-2.5 bg-[#00a884] cursor-pointer text-white rounded-full hover:bg-[#008f72] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0 flex items-center justify-center"
           aria-label="Send message"
         >
-          <Send className="w-5 h-5" />
+          {isSending ? (
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            <Send className="w-5 h-5" />
+          )}
         </button>
       </form>
     </div>
