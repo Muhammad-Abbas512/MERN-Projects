@@ -86,7 +86,7 @@ It motivates me to continue building and sharing more projects.
 01 - Notes App
 02 - Cloud Service Gallery
 03 - Login/SignUp
-04 - Real Time Chat Application like Whatsapp (Will do all integration)
+04 - Real Time Chat Application like Whatsapp
 ```
 
 ---
