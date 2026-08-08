@@ -74,9 +74,9 @@ More projects will be added regularly as I continue learning.
 
 ## ⭐ Support
 
-If you find these projects helpful, please consider giving this repository a **⭐ Star**.
+If you find these projects helpful, please giving this repository a **⭐ Star**.
 
-It motivates me to continue building and sharing more projects.
+It motivates me to continue building and sharing more projects. Thanks alot
 
 ---
 
